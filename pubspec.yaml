@@ -1,0 +1,52 @@
+name: subsynic
+description: Sync a self-hosted Subsonic library (metadata + Ogg/Opus downloads) for offline browsing.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  hooks_riverpod: 3.2.1
+  riverpod_annotation: 4.0.2
+  flutter_hooks: ^0.21.0
+  drift: ^2.31.0
+  sqlite3_flutter_libs: ^0.6.0+eol
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.11.0
+  fast_immutable_collections: ^11.0.0
+  dio: ^5.11.0
+  xml: ^7.0.0
+  crypto: ^3.0.0
+  auto_route: ^11.0.0
+  flutter_taglib: ^1.5.0
+  file_picker: 10.3.10
+  permission_handler: ^12.0.0
+  path: ^1.9.0
+  path_provider: ^2.1.0
+  collection: ^1.18.0
+  pool: ^1.5.0
+  logging: ^1.2.0
+  infinite_scroll_pagination: ^5.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.4.0
+  riverpod_generator: 4.0.3
+  freezed: 3.2.5
+  auto_route_generator: 10.4.0
+  drift_dev: 2.31.0
+  json_serializable: 6.13.0
+
+dependency_overrides:
+  lean_builder: 0.1.6
+
+flutter:
+  uses-material-design: true
