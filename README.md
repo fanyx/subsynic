@@ -21,6 +21,10 @@ your own local music player app.
   If you want to remove items from your synced files, mark them for deletion in the
   same UI.
 
+## To-Do
+
+- Multi-select albums/artists/songs -> Batch download
+
 ## Credits
 
 - [austinried/subtracks](https://github.com/austinried/subtracks)
@@ -36,3 +40,4 @@ your own local music player app.
 - [auto_route](https://pub.dev/packages/auto_route) — declarative routing
 - [flutter_taglib](https://pub.dev/packages/flutter_taglib) — embedded cover art via TagLib
 - [infinite_scroll_pagination](https://pub.dev/packages/infinite_scroll_pagination) — paged library views
+- [saf](https://pub.dev/packages/saf) - Android Storage Access Frame
