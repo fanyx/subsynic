@@ -1,0 +1,96 @@
+import '../models/query.dart';
+import '../models/settings.dart';
+import 'converters.dart';
+
+--
+-- SCHEMA
+--
+
+CREATE TABLE server(
+  id INT NOT NULL PRIMARY KEY,
+  address TEXT NOT NULL MAPPED BY `const UriConverter()`,
+  username TEXT NOT NULL,
+  password TEXT NOT NULL,
+  use_token_auth BOOLEAN NOT NULL DEFAULT 1
+);
+
+CREATE TABLE app_settings(
+  id INT NOT NULL PRIMARY KEY,
+  library_root_uri TEXT MAPPED BY `const UriConverter()`,
+  embed_cover BOOLEAN NOT NULL DEFAULT 0
+) WITH AppSettings;
+
+CREATE TABLE last_library_state(
+  id INT NOT NULL PRIMARY KEY,
+  tab TEXT NOT NULL,
+  albums_list TEXT NOT NULL MAPPED BY `const ListQueryConverter()`,
+  artists_list TEXT NOT NULL MAPPED BY `const ListQueryConverter()`,
+  playlists_list TEXT NOT NULL MAPPED BY `const ListQueryConverter()`,
+  songs_list TEXT NOT NULL MAPPED BY `const ListQueryConverter()`
+);
+
+CREATE TABLE downloads(
+  song_id TEXT NOT NULL PRIMARY KEY,
+  album_id TEXT,
+  local_path TEXT,
+  download_status TEXT NOT NULL MAPPED BY `const DownloadStatusConverter()` DEFAULT 'none',
+  download_progress INT NOT NULL DEFAULT 0,
+  cover_embedded BOOLEAN NOT NULL DEFAULT 0,
+  updated DATETIME NOT NULL DEFAULT (strftime('%s', CURRENT_TIMESTAMP))
+);
+CREATE INDEX downloads_album_id_idx ON downloads (album_id);
+
+CREATE TABLE album_covers(
+  album_id TEXT NOT NULL PRIMARY KEY,
+  cover_path TEXT NOT NULL,
+  updated DATETIME NOT NULL DEFAULT (strftime('%s', CURRENT_TIMESTAMP))
+);
+
+--
+-- QUERIES
+--
+
+getServer WITH ServerSettings:
+  SELECT * FROM server
+  WHERE id = 1;
+
+getAppSettings:
+  SELECT * FROM app_settings
+  WHERE id = 1;
+
+songDownloadById:
+  SELECT * FROM downloads
+  WHERE song_id = :song_id;
+
+songDownloadsByIds:
+  SELECT * FROM downloads
+  WHERE song_id IN :song_ids;
+
+downloadsByAlbum:
+  SELECT * FROM downloads
+  WHERE album_id = :album_id;
+
+allDownloads:
+  SELECT * FROM downloads;
+
+countDownloads:
+  SELECT COUNT(*) AS n FROM downloads;
+
+downloadCountsByAlbum:
+  SELECT
+    album_id,
+    COUNT(CASE WHEN download_status = 'completed' THEN 1 END) AS downloaded,
+    COUNT(CASE WHEN download_status IN ('queued', 'downloading') THEN 1 END) AS downloading
+  FROM downloads
+  WHERE album_id IS NOT NULL
+  GROUP BY album_id;
+
+albumCoverByAlbum:
+  SELECT * FROM album_covers
+  WHERE album_id = :album_id;
+
+allAlbumCovers:
+  SELECT * FROM album_covers;
+
+countAlbumCovers:
+  SELECT COUNT(*) AS n FROM album_covers;
