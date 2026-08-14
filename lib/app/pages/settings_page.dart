@@ -1,6 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:saf/saf.dart';
@@ -142,18 +140,11 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
-/// Picks the library root:
-/// - Android: the system SAF folder picker (`ACTION_OPEN_DOCUMENT_TREE`); the
-///   returned `content://` tree URI is made persistable by the `saf` package,
-///   so the grant survives restarts. No runtime storage permission is needed.
-/// - Other platforms: the classic directory picker (`file://` path).
+/// Picks the library root via the system SAF folder picker
+/// (`ACTION_OPEN_DOCUMENT_TREE`); the returned `content://` tree URI is made
+/// persistable by the `saf` package, so the grant survives restarts. No
+/// runtime storage permission is needed.
 Future<Uri?> _pickLibraryRoot() async {
-  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
-    final dir = await _saf.pickDirectory();
-    return dir == null ? null : Uri.parse(dir.uri);
-  }
-
-  final path = await FilePicker.getDirectoryPath();
-  if (path == null) return null;
-  return Uri.file(path);
+  final dir = await _saf.pickDirectory();
+  return dir == null ? null : Uri.parse(dir.uri);
 }

@@ -98,7 +98,6 @@ deleted. Read subtracks for *structure*; follow the current package docs.
 - **dio 5** (HTTP): <https://pub.dev/packages/dio>
 - **flutter_taglib** (Ogg/Opus tag+cover write): <https://pub.dev/packages/flutter_taglib>
 - **saf** (SAF storage; picker, persisted grants, streaming, FDs): <https://pub.dev/packages/saf>
-- **file_picker** (desktop picker only): <https://pub.dev/packages/file_picker>
 - **infinite_scroll_pagination**: <https://pub.dev/packages/infinite_scroll_pagination>
 - **Subsonic REST API** (`stream` params `format`, `maxBitRate`): <https://subsonic.github.io/>
 - **Ogg cover art** (`METADATA_BLOCK_PICTURE`): <https://wiki.xiph.org/VorbisComment>, picture block: <https://xiph.org/flac/format.html#metadata_block_picture>
@@ -117,7 +116,7 @@ deleted. Read subtracks for *structure*; follow the current package docs.
 | 5 | **No resumable downloads.** Interrupted downloads restart from scratch (tmp discarded). Cancel → job status `incomplete`, never `failed`. |
 | 6 | **No export / relocation.** Files always live in `library_root`. |
 | 7 | **One combined library page** (bottom tab "Library") with **3 tabs** — Albums / Artists / Playlists — and an **inline debounced search box** (300 ms) that routes to `search3`. **No songs tab** (no all-songs browse) and no separate search screen. |
-| 8 | **Android storage = SAF tree grant via the `saf` package.** `saf.pickDirectory()` (persistable permission), URI stored in `app_settings.library_root_uri`, restored on launch, all writes through `SafStorageProvider`. `MANAGE_EXTERNAL_STORAGE` rejected. `file_picker` kept only as the non-Android picker. |
+| 8 | **Android storage = SAF tree grant via the `saf` package.** `saf.pickDirectory()` (persistable permission), URI stored in `app_settings.library_root_uri`, restored on launch, all writes through `SafStorageProvider`. `MANAGE_EXTERNAL_STORAGE` rejected. The app targets **Android only**; the picker is exclusively SAF (no `file_picker`). |
 | 9 | **No playback** anywhere. |
 | 10 | **No export of media; `LibraryScanService` only verifies DB ↔ filesystem within `library_root`.** |
 | 11 | **Remote source of truth.** No metadata mirror in the DB; server answers "what exists", DB answers "what is on disk" (§1). |
@@ -442,7 +441,6 @@ historical.
 | `auto_route`, `auto_route_generator` | routing | 11.1.0 / 10.6.0 |
 | `flutter_taglib` | embed cover into Opus | ^1.5.2 |
 | `saf` | SAF storage (picker, grants, streaming, FDs) | ^2.1.0 |
-| `file_picker` | desktop/non-Android directory picker only (`FilePicker.getDirectoryPath`) | 11.0.3 |
 | `palette_generator` | album art → gradient color | ^0.3.3+7 |
 | `path`, `path_provider`, `collection`, `pool`, `logging` | utilities | latest |
 | `infinite_scroll_pagination` | paged lists | ^5.1.1 |
@@ -457,12 +455,14 @@ language version — the fix for build_runner hanging. `meta` is overridden to
 `build_runner` ≥2.15.2, `riverpod_generator` ≥4.0.6, `drift_dev` ≥2.34.1, or
 `freezed` to a stable >3.2.5 would pull analyzer ≥13 and break the solve.
 
+**Dependency overrides**: `meta` 1.18.3 (flutter_test pins 1.18.0).
+
 **Not used (verified absent)**: `http`, `just_audio`, `audio_service`,
 `cached_network_image`, `flutter_cache_manager`, `worker_manager`,
 `flutter_downloader`, `flutter_staggered_grid_view`, `flutter_svg`,
 `text_scroll`, `auto_size_text`, `share_plus`, `connectivity_plus`,
 `flutter_keyboard_visibility`, `package_info_plus`, `url_launcher`,
-`flutter_dotenv`, `permission_handler`, `synchronized`, `mime`, `rxdart`,
+`flutter_dotenv`, `permission_handler`, `file_picker`, `synchronized`, `mime`, `rxdart`,
 `intl`.
 
 ---

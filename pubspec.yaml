@@ -24,7 +24,6 @@ dependencies:
   crypto: ^3.0.7
   auto_route: ^11.1.0
   flutter_taglib: ^1.5.2
-  file_picker: ^11.0.3
   saf: ^2.1.0
   path: ^1.9.1
   path_provider: ^2.1.6
